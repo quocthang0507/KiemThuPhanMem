@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WideWorldImporters.API</name>
+    </assembly>
+    <members>
+        <member name="M:WideWorldImporters.API.Controllers.WarehouseController.GetStockItemsAsync(System.Int32,System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Retrieves stock items
+            </summary>
+            <param name="pageSize">Page size</param>
+            <param name="pageNumber">Page number</param>
+            <param name="lastEditedBy">Last edit by (user id)</param>
+            <param name="colorID">Color id</param>
+            <param name="outerPackageID">Outer package id</param>
+            <param name="supplierID">Supplier id</param>
+            <param name="unitPackageID">Unit package id</param>
+            <returns>A response with stock items list</returns>
+            <response code="200">Returns the stock items list</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:WideWorldImporters.API.Controllers.WarehouseController.GetStockItemAsync(System.Int32)">
+            <summary>
+            Retrieves a stock item by ID
+            </summary>
+            <param name="id">Stock item id</param>
+            <returns>A response with stock item</returns>
+            <response code="200">Returns the stock items list</response>
+            <response code="404">If stock item is not exists</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:WideWorldImporters.API.Controllers.WarehouseController.GetStockItemAsync(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Tìm kiếm Stock Item theo các tham số như lastEditedBy, colorID, outerPackageID, supplierID, unitPackageID
+            </summary>
+            <param name="supplierID"></param>
+            <param name="colorID"></param>
+            <param name="unitPackageID"></param>
+            <param name="outerPackageID"></param>
+            <param name="lastEditedBy"></param>
+            <returns></returns>
+            <response code="200">Returns the stock items list</response>
+            <response code="404">If stock item is not exists</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:WideWorldImporters.API.Controllers.WarehouseController.PostStockItemAsync(WideWorldImporters.API.Models.PostStockItemsRequest)">
+            <summary>
+            Creates a new stock item
+            </summary>
+            <param name="request">Request model</param>
+            <returns>A response with new stock item</returns>
+            <response code="200">Returns the stock items list</response>
+            <response code="201">A response as creation of stock item</response>
+            <response code="400">For bad request</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:WideWorldImporters.API.Controllers.WarehouseController.PutStockItemAsync(System.Int32,WideWorldImporters.API.Models.PutStockItemsRequest)">
+            <summary>
+            Updates an existing stock item
+            </summary>
+            <param name="id">Stock item ID</param>
+            <param name="request">Request model</param>
+            <returns>A response as update stock item result</returns>
+            <response code="200">If stock item was updated successfully</response>
+            <response code="400">For bad request</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:WideWorldImporters.API.Controllers.WarehouseController.DeleteStockItemAsync(System.Int32)">
+            <summary>
+            Deletes an existing stock item
+            </summary>
+            <param name="id">Stock item ID</param>
+            <returns>A response as delete stock item result</returns>
+            <response code="200">If stock item was deleted successfully</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="T:WideWorldImporters.API.Models.StockItem">
+            <summary>
+            StockItems class is the representation for Warehouse.StockItems table
+            </summary>
+        </member>
+        <member name="T:WideWorldImporters.API.Models.StockItemsConfiguration">
+            <summary>
+            StockItemsConfiguration class contains the mapping for StockItems class
+            </summary>
+        </member>
+        <member name="T:WideWorldImporters.API.Models.WideWorldImportersDbContext">
+            <summary>
+            WideWorldImportersDbContext class is the link between database and C# code, this class handles queries and commits the changes in database and of course, another things
+            </summary>
+        </member>
+        <member name="T:WideWorldImporters.API.Models.WideWorldImportersDbContextExtensions">
+            <summary>
+            WideWorldImportersDbContextExtensions contains extension methods to provide LINQ queries
+            </summary>
+        </member>
+        <member name="M:WideWorldImporters.API.Models.WideWorldImportersDbContextExtensions.GetStockItemsAsync(WideWorldImporters.API.Models.WideWorldImportersDbContext,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            La Quoc Thang defined
+            </summary>
+        </member>
+        <member name="T:WideWorldImporters.API.Models.IQueryableExtensions">
+            <summary>
+            IQueryableExtensions contains extension methods to allow paging in IQueryable instances
+            </summary>
+        </member>
+        <member name="T:WideWorldImporters.API.Models.PostStockItemsRequest">
+            <summary>
+            PostStockItemsRequestModel represents the model to create a new stock item, contains all required properties to save in database
+            </summary>
+        </member>
+        <member name="T:WideWorldImporters.API.Models.PutStockItemsRequest">
+            <summary>
+            PutStockItemsRequestModel represents the model to update an existing stock item, in this case contains only 4 properties: 
+            StockItemName, SupplierID, ColorID and UnitPrice. This class doesn't contain StockItemID property because id is in route for controller's action
+            </summary>
+        </member>
+        <member name="T:WideWorldImporters.API.Models.Extensions">
+            <summary>
+            Extensions class contains an extension method for PostStockItemsRequestModel, to return an instance of StockItem class from request model
+            </summary>
+        </member>
+        <member name="T:WideWorldImporters.API.Models.ISingleResponse`1">
+            <summary>
+            ISingleResponse represents a response for a single entity
+            </summary>
+            <typeparam name="TModel"></typeparam>
+        </member>
+        <member name="T:WideWorldImporters.API.Models.IListResponse`1">
+            <summary>
+            IListResponse represents a response with a list, for example all shipping to existing order without paging
+            </summary>
+            <typeparam name="TModel"></typeparam>
+        </member>
+        <member name="T:WideWorldImporters.API.Models.IPagedResponse`1">
+            <summary>
+            IPagedResponse represents a response with pagination, for example all orders in a date range
+            </summary>
+            <typeparam name="TModel"></typeparam>
+        </member>
+        <member name="T:WideWorldImporters.API.Models.ResponseExtensions">
+            <summary>
+            ResponseExtensions class contains extension methods to convert a response in a Http response, these methods return 
+            InternalServerError (500) status if an error occurs, OK (200) if it's OK and NotFound (404) if an entity does not 
+            exist in database or NoContent (204) for list responses without model.
+            </summary>
+        </member>
+    </members>
+</doc>
