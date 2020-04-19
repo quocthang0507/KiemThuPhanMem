@@ -9,6 +9,9 @@ namespace WideWorldImporters.API.Controllers
 {
 #pragma warning disable CS1591
 
+	/// <summary>
+	/// Xử lý các phương thức GET, POST, PUT và DELETE
+	/// </summary>
 	[ApiController]
 	[Route("api/v1/[controller]")]
 	public class WarehouseController : ControllerBase
@@ -27,7 +30,7 @@ namespace WideWorldImporters.API.Controllers
 		// api/v1/Warehouse/StockItem
 
 		/// <summary>
-		/// Retrieves stock items
+		/// Lấy danh sách các stock item theo phân trang
 		/// </summary>
 		/// <param name="pageSize">Page size</param>
 		/// <param name="pageNumber">Page number</param>
@@ -39,9 +42,9 @@ namespace WideWorldImporters.API.Controllers
 		/// <returns>A response with stock items list</returns>
 		/// <response code="200">Returns the stock items list</response>
 		/// <response code="500">If there was an internal server error</response>
-		[HttpGet("StockItem")]
-		[ProducesResponseType(200)]
-		[ProducesResponseType(500)]
+		[HttpGet("StockItem")] // Định tuyến phương thức trong controller
+		[ProducesResponseType(200)] // Lỗi xử lý yêu cầu
+		[ProducesResponseType(500)] // Lỗi bất ngờ của hệ thống
 		public async Task<IActionResult> GetStockItemsAsync(int pageSize = 10, int pageNumber = 1, int? lastEditedBy = null, int? colorID = null, int? outerPackageID = null, int? supplierID = null, int? unitPackageID = null)
 		{
 			Logger?.LogDebug("'{0}' has been invoked", nameof(GetStockItemsAsync));
@@ -54,7 +57,6 @@ namespace WideWorldImporters.API.Controllers
 
 				response.PageSize = pageSize;
 				response.PageNumber = pageNumber;
-
 				response.ItemsCount = await query.CountAsync();
 
 				response.Model = await query.Paging(pageSize, pageNumber).ToListAsync();
@@ -78,16 +80,16 @@ namespace WideWorldImporters.API.Controllers
 		// api/v1/Warehouse/StockItem/5
 
 		/// <summary>
-		/// Retrieves a stock item by ID
+		/// Tìm một stock item theo id
 		/// </summary>
 		/// <param name="id">Stock item id</param>
 		/// <returns>A response with stock item</returns>
 		/// <response code="200">Returns the stock items list</response>
 		/// <response code="404">If stock item is not exists</response>
 		/// <response code="500">If there was an internal server error</response>
-		[HttpGet("StockItem/{id}")]
+		[HttpGet("StockItem/{id}")] // Thêm tham số id vào URL
 		[ProducesResponseType(200)]
-		[ProducesResponseType(404)]
+		[ProducesResponseType(404)] // Không tìm thấy tài liệu theo yêu cầu
 		[ProducesResponseType(500)]
 		public async Task<IActionResult> GetStockItemAsync(int id)
 		{
@@ -154,7 +156,7 @@ namespace WideWorldImporters.API.Controllers
 		// api/v1/Warehouse/StockItem/
 
 		/// <summary>
-		/// Creates a new stock item
+		/// Thêm một stock item
 		/// </summary>
 		/// <param name="request">Request model</param>
 		/// <returns>A response with new stock item</returns>
@@ -164,7 +166,7 @@ namespace WideWorldImporters.API.Controllers
 		/// <response code="500">If there was an internal server error</response>
 		[HttpPost("StockItem")]
 		[ProducesResponseType(200)]
-		[ProducesResponseType(201)]
+		[ProducesResponseType(201)] // Yêu cầu đã được chấp nhận và kết quả sẽ dẫn tới tài nguyên mới được tạo ra
 		[ProducesResponseType(400)]
 		[ProducesResponseType(500)]
 		public async Task<IActionResult> PostStockItemAsync([FromBody]PostStockItemsRequest request)
@@ -175,12 +177,12 @@ namespace WideWorldImporters.API.Controllers
 
 			try
 			{
-				var existingEntity = await DbContext.GetStockItemsByStockItemNameAsync(new StockItem { StockItemName = request.StockItemName });
+				var existingEntity = await DbContext.GetStockItemsByStockItemNameAsync(new StockItem { StockItemName = request.StockItemName }); // Tìm tên của item có trùng trong csdl không
 
 				if (existingEntity != null)
 					ModelState.AddModelError("StockItemName", "Stock item name already exists");
 
-				if (!ModelState.IsValid || request.StockItemName == null)
+				if (!ModelState.IsValid || request.StockItemName == null) // Xử lý để PASS các test
 					return BadRequest();
 
 				var entity = request.ToEntity();
@@ -206,7 +208,7 @@ namespace WideWorldImporters.API.Controllers
 		// api/v1/Warehouse/StockItem/5
 
 		/// <summary>
-		/// Updates an existing stock item
+		/// Cập nhật một stock item có sẵn
 		/// </summary>
 		/// <param name="id">Stock item ID</param>
 		/// <param name="request">Request model</param>
@@ -227,12 +229,12 @@ namespace WideWorldImporters.API.Controllers
 
 			try
 			{
-				var entity = await DbContext.GetStockItemsAsync(new StockItem(id));
+				var entity = await DbContext.GetStockItemsAsync(new StockItem(id)); // Tìm theo id
 
-				if (entity == null)
+				if (entity == null) // Nếu không thấy, trả về NotFound (404)
 					return NotFound();
 
-				if (request.StockItemName == null || request.SupplierID == null)
+				if (request.StockItemName == null || request.SupplierID == null) // Nếu request thiếu yêu cầu bắt buộc thì trả về BadRequest (400) (chủ yếu để đảm bảo PASS test)
 					return BadRequest();
 
 				entity.StockItemName = request.StockItemName;
@@ -259,7 +261,7 @@ namespace WideWorldImporters.API.Controllers
 		// api/v1/Warehouse/StockItem/5
 
 		/// <summary>
-		/// Deletes an existing stock item
+		/// Xóa một stock item có sẵn
 		/// </summary>
 		/// <param name="id">Stock item ID</param>
 		/// <returns>A response as delete stock item result</returns>
@@ -267,6 +269,7 @@ namespace WideWorldImporters.API.Controllers
 		/// <response code="500">If there was an internal server error</response>
 		[HttpDelete("StockItem/{id}")]
 		[ProducesResponseType(200)]
+		[ProducesResponseType(404)]
 		[ProducesResponseType(500)]
 		public async Task<IActionResult> DeleteStockItemAsync(int id)
 		{
@@ -276,9 +279,9 @@ namespace WideWorldImporters.API.Controllers
 
 			try
 			{
-				var entity = await DbContext.GetStockItemsAsync(new StockItem(id));
+				var entity = await DbContext.GetStockItemsAsync(new StockItem(id)); // Tìm trong CSDL
 
-				if (entity == null)
+				if (entity == null) // Nếu không tìm thấy, trả về NotFound (404)
 					return NotFound();
 
 				DbContext.Remove(entity);

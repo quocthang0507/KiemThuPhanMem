@@ -7,7 +7,7 @@ namespace WideWorldImporters.API.Models
 #pragma warning disable CS1591
 
 	/// <summary>
-	/// StockItems class is the representation for Warehouse.StockItems table
+	/// Lớp ảnh xạ bảng Warehouse.StockItems
 	/// </summary>
 	public partial class StockItem
 	{
@@ -71,7 +71,7 @@ namespace WideWorldImporters.API.Models
 	}
 
 	/// <summary>
-	/// StockItemsConfiguration class contains the mapping for StockItems class
+	/// Lớp StockItemsConfiguration ánh xạ các kiểu dữ liệu của các cột trong SQL với kiểu dữ liệu của từng thuộc tính 
 	/// </summary>
 	public class StockItemsConfiguration : IEntityTypeConfiguration<StockItem>
 	{
@@ -100,16 +100,16 @@ namespace WideWorldImporters.API.Models
 			builder.Property(p => p.InternalComments).HasColumnType("nvarchar(max)");
 			builder.Property(p => p.CustomFields).HasColumnType("nvarchar(max)");
 			builder.Property(p => p.LastEditedBy).HasColumnType("int").IsRequired();
-			builder.Property(p => p.StockItemID).HasColumnType("int").IsRequired().HasDefaultValueSql("NEXT VALUE FOR [Sequences].[StockItemID]");
-			builder.Property(p => p.Tags).HasColumnType("nvarchar(max)").HasComputedColumnSql("json_query([CustomFields],N'$.Tags')");
-			builder.Property(p => p.SearchDetails).HasColumnType("nvarchar(max)").IsRequired().HasComputedColumnSql("concat([StockItemName],N' ',[MarketingComments])");
-			builder.Property(p => p.ValidFrom).HasColumnType("datetime2").IsRequired().ValueGeneratedOnAddOrUpdate();
+			builder.Property(p => p.StockItemID).HasColumnType("int").IsRequired().HasDefaultValueSql("NEXT VALUE FOR [Sequences].[StockItemID]"); // Giá trị mặc định, số tiếp theo của chuỗi id
+			builder.Property(p => p.Tags).HasColumnType("nvarchar(max)").HasComputedColumnSql("json_query([CustomFields],N'$.Tags')"); // Chuyển CustomFields sang JSON
+			builder.Property(p => p.SearchDetails).HasColumnType("nvarchar(max)").IsRequired().HasComputedColumnSql("concat([StockItemName],N' ',[MarketingComments])"); // Nối tên và các chữ tiếp thị lại
+			builder.Property(p => p.ValidFrom).HasColumnType("datetime2").IsRequired().ValueGeneratedOnAddOrUpdate(); // Ngày hiện tại tạo stock item đó
 			builder.Property(p => p.ValidTo).HasColumnType("datetime2").IsRequired().ValueGeneratedOnAddOrUpdate();
 		}
 	}
 
 	/// <summary>
-	/// WideWorldImportersDbContext class is the link between database and C# code, this class handles queries and commits the changes in database and of course, another things
+	/// Lớp WideWorldImportersDbContext nối C# với SQL, do đó nó xử lý các truy vấn và lưu thay đổi vào CSDL
 	/// </summary>
 	public class WideWorldImportersDbContext : DbContext
 	{

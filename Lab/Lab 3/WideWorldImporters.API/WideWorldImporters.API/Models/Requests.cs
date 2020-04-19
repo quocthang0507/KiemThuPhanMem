@@ -6,7 +6,7 @@ namespace WideWorldImporters.API.Models
 #pragma warning disable CS1591
 
 	/// <summary>
-	/// PostStockItemsRequestModel represents the model to create a new stock item, contains all required properties to save in database
+	/// Lớp PostStockItemsRequestModel dùng trong phương thức POST để thêm vào stock item vào, quy định khóa, chiều dài, bắt buộc hay không
 	/// </summary>
 	public class PostStockItemsRequest
 	{
@@ -77,8 +77,7 @@ namespace WideWorldImporters.API.Models
 	}
 
 	/// <summary>
-	/// PutStockItemsRequestModel represents the model to update an existing stock item, in this case contains only 4 properties: 
-	/// StockItemName, SupplierID, ColorID and UnitPrice. This class doesn't contain StockItemID property because id is in route for controller's action
+	/// Lớp PutStockItemsRequestModel dùng trong phương thức PUT, chỉ có 4 thuộc tínhStockItemName, SupplierID, ColorID and UnitPrice
 	/// </summary>
 	public class PutStockItemsRequest
 	{
@@ -96,7 +95,7 @@ namespace WideWorldImporters.API.Models
 	}
 
 	/// <summary>
-	/// Extensions class contains an extension method for PostStockItemsRequestModel, to return an instance of StockItem class from request model
+	/// Phương thức chuyển PostStockItemsRequestModel thành stock item
 	/// </summary>
 	public static class Extensions
 	{

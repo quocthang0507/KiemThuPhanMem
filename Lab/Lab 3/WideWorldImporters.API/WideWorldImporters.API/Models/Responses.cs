@@ -16,7 +16,7 @@ namespace WideWorldImporters.API.Models
 	}
 
 	/// <summary>
-	/// ISingleResponse represents a response for a single entity
+	/// ISingleResponse đại diện cho phản hồi trả về một thực thể
 	/// </summary>
 	/// <typeparam name="TModel"></typeparam>
 	public interface ISingleResponse<TModel> : IResponse
@@ -25,7 +25,7 @@ namespace WideWorldImporters.API.Models
 	}
 
 	/// <summary>
-	/// IListResponse represents a response with a list, for example all shipping to existing order without paging
+	/// IListResponse đại diện cho phản hồi trả về một danh sách các thực thể, không phân trang
 	/// </summary>
 	/// <typeparam name="TModel"></typeparam>
 	public interface IListResponse<TModel> : IResponse
@@ -34,7 +34,7 @@ namespace WideWorldImporters.API.Models
 	}
 
 	/// <summary>
-	/// IPagedResponse represents a response with pagination, for example all orders in a date range
+	/// IPagedResponse trả về một danh sách các thực thể có phân trang
 	/// </summary>
 	/// <typeparam name="TModel"></typeparam>
 	public interface IPagedResponse<TModel> : IListResponse<TModel>
@@ -96,9 +96,7 @@ namespace WideWorldImporters.API.Models
 	}
 
 	/// <summary>
-	/// ResponseExtensions class contains extension methods to convert a response in a Http response, these methods return 
-	/// InternalServerError (500) status if an error occurs, OK (200) if it's OK and NotFound (404) if an entity does not 
-	/// exist in database or NoContent (204) for list responses without model.
+	/// ResponseExtensions chuyển đổi một phản hồi thành phản hồi Http, trả về InternalServerError (500), OK (200), NotFound (404), NoContent (204)
 	/// </summary>
 	public static class ResponseExtensions
 	{

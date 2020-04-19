@@ -6,7 +6,7 @@ namespace WideWorldImporters.API.Models
 {
 #pragma warning disable CS1591
 	/// <summary>
-	/// WideWorldImportersDbContextExtensions contains extension methods to provide LINQ queries
+	/// WideWorldImportersDbContextExtensions tìm kiếm stock item bằng LINQ, chỉ cần đưa các tham số tương ứng vào
 	/// </summary>
 	public static class WideWorldImportersDbContextExtensions
 	{
@@ -14,6 +14,7 @@ namespace WideWorldImporters.API.Models
 		{
 			var query = dbContext.StockItems.AsQueryable();
 
+			// Lọc các stock item theo từng tham số
 			if (lastEditedBy.HasValue)
 				query = query.Where(item => item.LastEditedBy == lastEditedBy);
 
@@ -32,19 +33,38 @@ namespace WideWorldImporters.API.Models
 			return query;
 		}
 
+		/// <summary>
+		/// Tìm kiếm stock item theo id
+		/// </summary>
+		/// <param name="dbContext"></param>
+		/// <param name="entity"></param>
+		/// <returns></returns>
 		public static async Task<StockItem> GetStockItemsAsync(this WideWorldImportersDbContext dbContext, StockItem entity) => await dbContext.StockItems.FirstOrDefaultAsync(item => item.StockItemID == entity.StockItemID);
 
 		/// <summary>
-		/// La Quoc Thang defined
+		/// Tìm kiếm stock item theo các yêu cầu của test
 		/// </summary>
+		/// <param name="dbContext"></param>
+		/// <param name="supplierID"></param>
+		/// <param name="colorID"></param>
+		/// <param name="unitPackageID"></param>
+		/// <param name="outerPackageID"></param>
+		/// <param name="lastEditedBy"></param>
+		/// <returns></returns>
 		public static async Task<StockItem> GetStockItemsAsync(this WideWorldImportersDbContext dbContext, int supplierID, int colorID, int unitPackageID, int outerPackageID, int lastEditedBy) => await dbContext.StockItems.FirstOrDefaultAsync(item =>
 			item.SupplierID == supplierID && item.ColorID == colorID && item.UnitPackageID == unitPackageID && item.OuterPackageID == outerPackageID && item.LastEditedBy == lastEditedBy);
 
+		/// <summary>
+		/// Tìm kiếm stock item theo tên
+		/// </summary>
+		/// <param name="dbContext"></param>
+		/// <param name="entity"></param>
+		/// <returns></returns>
 		public static async Task<StockItem> GetStockItemsByStockItemNameAsync(this WideWorldImportersDbContext dbContext, StockItem entity) => await dbContext.StockItems.FirstOrDefaultAsync(item => item.StockItemName == entity.StockItemName);
 	}
 
 	/// <summary>
-	/// IQueryableExtensions contains extension methods to allow paging in IQueryable instances
+	/// IQueryableExtensions chứa các phương thức mở rộng phân trang
 	/// </summary>
 	public static class IQueryableExtensions
 	{
