@@ -7,7 +7,7 @@ namespace WideWorldImporters.API.Models
 #pragma warning disable CS1591
 
 	/// <summary>
-	/// Lớp ảnh xạ bảng Warehouse.StockItems
+	/// Lớp ánh xạ bảng Warehouse.StockItems
 	/// </summary>
 	public partial class StockItem
 	{
